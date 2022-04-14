@@ -1,0 +1,8 @@
+framework module LocationSpoofer {
+    header "LocationSpoofer.h"
+
+    private header "mobiledevice.h"
+    private header "simulatordevice.h"
+    
+    export *
+}
