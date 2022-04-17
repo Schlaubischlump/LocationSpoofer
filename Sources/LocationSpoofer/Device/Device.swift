@@ -28,7 +28,7 @@ public protocol Device: CustomStringConvertible {
     var name: String { get }
     /// The device version e.g. 15.2 (including a possible revision number)
     var version: String? { get }
-    /// The device name e.g. iPhone OS
+    /// The product name e.g. iPhone OS, Watch OS, Apple TVOS
     var productName: String? { get }
     /// The connection type (USB, Network or Unknown)
     var connectionType: ConnectionType { get }
