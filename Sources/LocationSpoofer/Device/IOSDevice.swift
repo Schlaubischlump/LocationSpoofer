@@ -147,7 +147,10 @@ public struct IOSDevice: Device {
             deviceList[udid] = (notificationName == .DeviceDisconnected) ? nil : device
 
             DispatchQueue.main.async {
-                NotificationCenter.default.post(name: notificationName!, object: nil, userInfo: ["device": device!])
+                // Fix a rare crash where device is somehow nil.
+                if let device = device {
+                    NotificationCenter.default.post(name: notificationName!, object: nil, userInfo: ["device": device])
+                }
             }
         }
 

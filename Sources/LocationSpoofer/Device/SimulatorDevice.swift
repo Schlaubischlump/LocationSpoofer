@@ -19,8 +19,8 @@ public struct SimulatorDevice: Device {
     // MARK: - Static attributes
 
     public static var availableDevices: [Device] {
-        let devices = SimDeviceWrapper.availableDevices()
-        return (devices?.allObjects as? [Device]) ?? []
+        let devices = SimDeviceWrapper.availableDevices()?.allObjects as? [SimDeviceWrapper] ?? []
+        return (devices.map { SimulatorDevice(wrapper: $0) } as? [Device]) ?? []
     }
 
     public static var isGeneratingDeviceNotifications: Bool {
@@ -32,14 +32,22 @@ public struct SimulatorDevice: Device {
 
     // MARK: - Instance attributes
 
-    public private(set) var udid: String
-    public private(set) var name: String
-    public private(set) var productName: String?
-    public private(set) var version: String?
+    public var udid: String {
+        return self.wrapper.udid()
+    }
+    public var name: String {
+        return self.wrapper.name()
+    }
+    public var productName: String? {
+        return self.wrapper.productName()
+    }
+    public var version: String? {
+        return self.wrapper.productVersion()
+    }
     public private(set) var connectionType: ConnectionType = .unknown
 
     /// Internal wrapper around the simulator device
-    private var wrapper: SimDeviceWrapper?
+    private var wrapper: SimDeviceWrapper
 
     // MARK: - Static functions
 
@@ -49,12 +57,7 @@ public struct SimulatorDevice: Device {
 
         // Listen for new simulator devices.
         SimulatorDevice.subscriberID = SimDeviceWrapper.subscribe { simDeviceWrapper in
-            let udid = simDeviceWrapper.udid()
-            let name = simDeviceWrapper.name()
-            var device = SimulatorDevice(udid: udid, name: name, connectionType: .unknown, wrapper: simDeviceWrapper)
-            device.productName = simDeviceWrapper.productName()
-            device.version = simDeviceWrapper.productVersion();
-
+            let device = SimulatorDevice(wrapper: simDeviceWrapper)
             let connected = simDeviceWrapper.isConnected()
             let notification: Notification.Name = connected ? .DeviceConnected : .DeviceDisconnected
             DispatchQueue.main.async {
@@ -74,14 +77,11 @@ public struct SimulatorDevice: Device {
     // MARK: - Manage location
 
     public func simulateLocation(_ location: CLLocationCoordinate2D) -> Bool {
-        return self.wrapper?.setLocationWithLatitude(location.latitude, andLongitude: location.longitude) ?? false
+        return self.wrapper.setLocationWithLatitude(location.latitude, andLongitude: location.longitude)
     }
 
     public func disableSimulation() -> Bool {
-        if self.wrapper?.resetLocation() ?? false {
-            return true
-        }
-        return false
+        return self.wrapper.resetLocation()
     }
 }
 
