@@ -1,6 +1,6 @@
 # LocationSpoofer
 
-> Note
+> **Note**:   
 > Currently you should make sure to initialize a c-logger instance (console logging is sufficient) before attempting to use the library. I'll try to change this in the future.
 
 ### Description
