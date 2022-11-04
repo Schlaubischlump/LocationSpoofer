@@ -5,7 +5,7 @@
 //  Created by David Klopp on 08.08.19.
 //  Copyright © 2019 David Klopp. All rights reserved.
 //
-// Based on: https://github.com/libimobiledevice/libimobiledevice/blob/master/tools/ideviceinfo.c
+// Based on: https://gist.github.com/nikias/262bd709c1651e0139eb9e3a2e2d33f4
 
 #include <stdio.h>
 #include <string.h>
