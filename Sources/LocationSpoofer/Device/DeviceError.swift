@@ -14,6 +14,7 @@ public enum DeviceError: Error, LocalizedError {
     case devDiskImageNotFound(_ message: String)
     case devDiskImageMount(_ message: String)
     case productInfo(_ message: String)
+    case devMode(_ message: String)
 
     public var errorDescription: String? {
         switch self {
@@ -22,6 +23,7 @@ public enum DeviceError: Error, LocalizedError {
             case .devDiskImageNotFound(let message):    return message
             case .devDiskImageMount(let message):       return message
             case .productInfo(let message):             return message
+            case .devMode(let message):                 return message
         }
     }
 }

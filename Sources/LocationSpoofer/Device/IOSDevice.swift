@@ -65,9 +65,15 @@ public struct IOSDevice: Device {
 
     /// Readonly: True if the DeveloperDiskImage is already mounted
     public var developerDiskImageIsMounted: Bool {
-        var allConnections = ConnectionType.usb
-        allConnections.insert(ConnectionType.network)
-        return developerImageIsMountedForDevice(udid, allConnections.lookupOps)
+        return developerImageIsMountedForDevice(self.udid, self.lookupOps)
+    }
+
+    /// Readonly: True if DeveloperMode is enabled
+    public var developerModeIsEnabled: Bool {
+        guard self.majorVersion ?? 0 >= 16 else {
+            return true
+        }
+        return developerModeIsEnabledForDevice(self.udid, self.lookupOps)
     }
 
     // MARK: - Static functions
@@ -201,6 +207,7 @@ public struct IOSDevice: Device {
     /// - Parameter devImageSig: URL to the DeveloperDiskImage.dmg.signature
     /// - Throws:
     ///    * `DeviceError.pair`: The pairing process failed
+    ///    * `DeviceError.devMode`: Developer mode is not enabled
     ///    * `DeviceError.devDiskImageMount`: DeveloperDiskImage mounting failed
     /// - Return: Device instance
     public func pair(devImage: URL, devImageSig: URL) throws {
@@ -209,10 +216,22 @@ public struct IOSDevice: Device {
             throw DeviceError.pair("Could not pair device!")
         }
 
+        // Try to enable developer mode if required
+        if !self.developerModeIsEnabled {
+            throw DeviceError.devMode("Developer mode not enabled!")
+        }
+
         // Try to mount the DeveloperDiskImage.dmg
         if !self.mountDeveloperDiskImage(devImage: devImage, devImageSig: devImageSig) {
             throw DeviceError.devDiskImageMount("Mount error!")
         }
+    }
+
+    /// Display the developer mode toggle inside the settings app.
+    /// - Return: true on success, false otherwise
+    @discardableResult
+    public func enabledDeveloperModeToggleInSettings() -> Bool {
+        return enableDeveloperMode(self.udid, self.lookupOps)
     }
 
     /// Try to upload and mount the DeveloperDiskImage.dmg on this device.

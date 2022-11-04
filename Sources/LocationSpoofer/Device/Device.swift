@@ -55,9 +55,26 @@ public protocol Device: CustomStringConvertible {
     /// - Return: True on success, False otherwise.
     @discardableResult
     func disableSimulation() -> Bool
+
+    var majorVersion: Int? { get }
+    var minorVersion: Int { get }
 }
 
 public extension Device {
+    var majorVersion: Int? {
+        guard let components = self.version?.split(separator: "."), !components.isEmpty else {
+            return nil
+        }
+        return Int(components[0])
+    }
+
+    var minorVersion: Int {
+        guard let components = self.version?.split(separator: "."), components.count > 1 else {
+            return 0
+        }
+        return Int(components[1])!
+    }
+
     var description: String {
         return "\(type(of: self))(udid: \(self.udid), name: \(self.name), connectionType: \(self.connectionType))"
     }

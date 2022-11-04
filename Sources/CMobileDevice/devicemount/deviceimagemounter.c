@@ -44,7 +44,7 @@ bool developerImageIsMountedForDevice(const char *udid, enum idevice_options loo
 
     if (IDEVICE_E_SUCCESS != idevice_new_with_options(&device, udid, lookup_ops)) {
         LOG_ERROR("Device \"%s\": Not found.", udid);
-        return NULL;
+        return res;
     }
 
     if (LOCKDOWN_E_SUCCESS != (ldret = lockdownd_client_new_with_handshake(device, &lckd, "deviceimagemounter"))) {

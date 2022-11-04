@@ -36,4 +36,10 @@ const char *deviceProductName(const char *udid, enum idevice_options lookup_ops)
 // get the device name of the specific iOS Device
 const char *deviceName(const char *udid, enum idevice_options lookup_ops);
 
+// True if the developer mode is enabled. False otherwise.
+bool developerModeIsEnabledForDevice(const char *udid, enum idevice_options lookup_ops);
+
+// Enable the developer mode settings.
+bool enableDeveloperMode(const char *udid, enum idevice_options lookup_ops);
+
 #endif /* mobiledevice_h */
