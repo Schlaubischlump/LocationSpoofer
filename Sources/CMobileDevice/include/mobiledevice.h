@@ -12,6 +12,10 @@
 #include <stdbool.h>
 #include <libimobiledevice/libimobiledevice.h>
 
+#define DEV_ACTION_REVEAL 0 // 0 = reveal toggle in settings
+#define DEV_ACTION_ENABLE 1 // 1 = enable developer mode (only if no passcode is set)
+#define DEV_ACTION_PROMPT 2 // 2 = answers developer mode enable prompt post-restart
+
 // Reset the currently spoofed location of an iOS device to the original one.
 bool resetLocation(const char* udid, enum idevice_options lookup_ops);
 
@@ -37,9 +41,9 @@ const char *deviceProductName(const char *udid, enum idevice_options lookup_ops)
 const char *deviceName(const char *udid, enum idevice_options lookup_ops);
 
 // True if the developer mode is enabled. False otherwise.
-bool developerModeIsEnabledForDevice(const char *udid, enum idevice_options lookup_ops);
+int developerModeStatusForDevice(const char *udid, enum idevice_options lookup_ops);
 
 // Enable the developer mode settings.
-bool enableDeveloperMode(const char *udid, enum idevice_options lookup_ops);
+bool enableDeveloperMode(const char *udid, enum idevice_options lookup_ops)
 
 #endif /* mobiledevice_h */
