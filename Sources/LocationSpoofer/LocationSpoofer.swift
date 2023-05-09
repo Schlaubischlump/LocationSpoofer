@@ -163,7 +163,6 @@ public class LocationSpoofer {
 
     /// Update the current location by moving to the next location depending on the move state, the speed and heading.
     public func move() throws {
-        // TODO: Move this out of the spoofer class. This should be handled inside key down (or the function that is called in mapViewController on key down) and didChangeLocation ?
         // We only allow a new manual move, if the previous move is finished.
         guard !self.hasPendingTask else {
             throw LocationSpooferError.queueIsBusy("Operation queue is busy. Wait till the task is finished.")
@@ -171,7 +170,7 @@ public class LocationSpoofer {
 
         if !self.isAutoUpdating {
             // Auto move is deactivated. We can manually move indepentently of the move state.
-            guard let nextLocation = self.moveState.getNextLocation(distance: self.moveType.speed,
+            guard let nextLocation = self.moveState.getNextLocation(distance: self.speed,
                                                                     heading: self.heading,
                                                                     previousLocation: self.currentLocation,
                                                                     isAutoUpdate: false) else {
@@ -182,7 +181,7 @@ public class LocationSpoofer {
             // Make sure no update operation gets in the way
             self.cancelNextUpdate()
             // We always assume a time difference of 1 second to calculate the distance
-            guard let nextLocation = self.moveState.getNextLocation(distance: self.moveType.speed,
+            guard let nextLocation = self.moveState.getNextLocation(distance: self.speed,
                                                                     heading: self.heading,
                                                                     previousLocation: self.currentLocation,
                                                                     isAutoUpdate: false) else {
