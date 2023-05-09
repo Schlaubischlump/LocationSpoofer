@@ -1,7 +1,7 @@
 # LocationSpoofer
 
 > **Note**:   
-> Currently you should make sure to initialize a c-logger instance (console logging is sufficient) before attempting to use the library. I'll try to change this in the future.
+> Currently you should make sure to initialize a [c-logger](https://github.com/Schlaubischlump/CLogger.git) instance (console logging is sufficient e.g `logger_initConsoleLogger(nil)`) before attempting to use the library. I'll try to change this in the future.
 
 ### Description
 
