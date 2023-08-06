@@ -5,7 +5,7 @@
 
 ### Description
 
-This package provides a simple wrapper around `libimobiledevice` and some internal Apple APIs in `CoreSimulator` to allow spoofing the location of iOS devices or iPhoneSimulator devices.
+This package provides a simple wrapper around `libimobiledevice` and some internal Apple APIs in `CoreSimulator` to allow spoofing the location of iOS devices or iPhoneSimulator devices. To use the SimulatorDevice API inside a sandboxed application make sure to add your application to the app group "com.apple.CoreSimulator". 
 
 ### Structure
 
